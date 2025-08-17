@@ -71,6 +71,17 @@ function App() {
     );
   };
 
+  const addExtraScore = (groupId: string, extrascore: number) => {
+    setGroups(prevGroups => 
+      prevGroups.map(group => {
+      if(group.id === groupId){
+        group.score = group.score + extrascore;
+      }
+      return group;
+    })
+  );
+  }
+
   return (
     <div className="app">
       <BackgroundParticles count={40} />
@@ -94,6 +105,7 @@ function App() {
           onViewLeaderboard={() => setCurrentPage('leaderboard')}
           onBackToSetup={() => setCurrentPage('setup')}
           onResetGame={resetGame}
+          addExtraScore={addExtraScore}
         />
       )}
 

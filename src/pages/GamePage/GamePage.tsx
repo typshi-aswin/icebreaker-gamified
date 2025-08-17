@@ -8,6 +8,7 @@ interface GamePageProps {
   tasks: Task[];
   groups: Group[];
   updateGroupScore: (groupId: string, taskId: string, completed: boolean) => void;
+  addExtraScore: (groupId: string, extrascore: number) => void
   onViewLeaderboard: () => void;
   onBackToSetup: () => void;
   onResetGame: () => void;
@@ -17,6 +18,7 @@ const GamePage: React.FC<GamePageProps> = ({
   tasks,
   groups,
   updateGroupScore,
+  addExtraScore,
   onViewLeaderboard,
   onBackToSetup,
   onResetGame
@@ -29,7 +31,7 @@ const GamePage: React.FC<GamePageProps> = ({
 
   return (
     <div className="game-page">
-      <BackgroundParticles count = {30} />
+      <BackgroundParticles count={30} />
       <div className="container">
         <div className="game-header">
           <h1 className="game-title">Icebreaker Dashboard</h1>
@@ -54,7 +56,7 @@ const GamePage: React.FC<GamePageProps> = ({
                   <h2 className="team-name">{group.name}</h2>
                   <div className="team-score">{group.score} pts</div>
                 </div>
-                
+
                 <div className="team-players">
                   {group.players.map(player => (
                     <span key={player.id} className="player-name">
@@ -86,6 +88,27 @@ const GamePage: React.FC<GamePageProps> = ({
                     ))}
                   </div>
                 </div>
+                {/* ✅ Extra Score Section */}
+                <div className="extra-score-section">
+                  <input
+                    type="number"
+                    placeholder="Extra points"
+                    className="extra-score-input"
+                    id={`extra-${group.id}`}
+                  />
+                  <button
+                    className="btn btn-small btn-primary"
+                    onClick={() => {
+                      const input = document.getElementById(`extra-${group.id}`) as HTMLInputElement;
+                      if (input && input.value) {
+                        addExtraScore(group.id, Number(input.value));
+                        input.value = ""; // clear input after adding
+                      }
+                    }}
+                  >
+                    Add
+                  </button>
+                </div>
               </div>
             ))}
           </div>
@@ -95,8 +118,8 @@ const GamePage: React.FC<GamePageProps> = ({
               <h2 className="sidebar-title">Leaderboard</h2>
               <div className="leaderboard-list">
                 {sortedGroups.map((group, index) => (
-                  <div 
-                    key={group.id} 
+                  <div
+                    key={group.id}
                     className={`leaderboard-item ${index === 0 ? 'top-team' : ''}`}
                   >
                     <div className="rank">#{index + 1}</div>
