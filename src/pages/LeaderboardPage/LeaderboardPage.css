@@ -4,6 +4,12 @@
   padding: 40px 20px;
   display: flex;
   flex-direction: column;
+  background-color: #0d0d0d;
+  opacity: 0.8;
+  background-image: radial-gradient(#00ff00 0.5px, transparent 0.5px),
+    radial-gradient(#00ff00 0.5px, #0d0d0d 0.5px);
+  background-size: 20px 20px;
+  background-position: 0 0, 10px 10px;
 }
 
 .leaderboard-container {

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Group } from '../../App';
 import './LeaderboardPage.css';
+import BackgroundParticles from '../../components/BackgroundParticles/BackgroundParticles';
 
 interface LeaderboardPageProps {
   groups: Group[];
@@ -31,6 +32,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({
 
   return (
     <div className="leaderboard-page">
+      <BackgroundParticles count={50} />
       <div className="leaderboard-container">
         <div className="leaderboard-header">
           <h1 className="leaderboard-main-title">Icebreaker Leaderboard</h1>
