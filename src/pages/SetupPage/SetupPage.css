@@ -11,6 +11,25 @@
 
 }
 
+.title-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+
+  h1 {
+    margin: 0
+  }
+}
+
+@media (max-width: 768px) {
+  .title-container {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
 .setup-title {
   text-align: center;
   color: #00ff80;
@@ -23,7 +42,7 @@
   display: grid;
   grid-template-columns: 1fr;
   gap: 30px;
-  margin-bottom: 40px;
+  /* margin-bottom: 40px; */
 }
 
 .section-title {
@@ -50,7 +69,7 @@
 .tasks-list {
   max-height: 200px;
   overflow-y: auto;
-  max-width: 309px;
+  /* max-width: 309px; */
 }
 
 .task-item {
@@ -181,7 +200,6 @@
 /* Start Game Section */
 .start-game-section {
   text-align: center;
-  margin-top: 40px;
 }
 
 .btn-start {

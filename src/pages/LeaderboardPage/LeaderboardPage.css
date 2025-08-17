@@ -204,6 +204,7 @@
   padding: 30px;
   box-shadow: 0 0 50px rgba(0, 255, 128, 0.3);
   animation: pulse 2s infinite;
+  margin-bottom: 2rem;
 }
 
 .winner-crown {
