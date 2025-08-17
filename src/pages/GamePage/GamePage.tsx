@@ -2,6 +2,7 @@ import React from 'react';
 import { Task, Group } from '../../App';
 import './GamePage.css';
 import BackgroundParticles from '../../components/BackgroundParticles/BackgroundParticles';
+import Footer from '../../components/Footer/Footer';
 
 interface GamePageProps {
   tasks: Task[];
@@ -110,6 +111,7 @@ const GamePage: React.FC<GamePageProps> = ({
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

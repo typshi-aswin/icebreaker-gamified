@@ -2,6 +2,7 @@ import React from 'react';
 import { Group } from '../../App';
 import './LeaderboardPage.css';
 import BackgroundParticles from '../../components/BackgroundParticles/BackgroundParticles';
+import Footer from '../../components/Footer/Footer';
 
 interface LeaderboardPageProps {
   groups: Group[];
@@ -108,6 +109,7 @@ const LeaderboardPage: React.FC<LeaderboardPageProps> = ({
           </div>
         )}
       </div>
+      <Footer />
     </div>
   );
 };

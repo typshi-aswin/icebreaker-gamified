@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Task, Player, Group } from '../../App';
 import './SetupPage.css';
 import BackgroundParticles from '../../components/BackgroundParticles/BackgroundParticles';
+import Footer from '../../components/Footer/Footer';
 
 interface SetupPageProps {
   tasks: Task[];
@@ -88,7 +89,7 @@ const SetupPage: React.FC<SetupPageProps> = ({
     <div className="setup-page">
       <BackgroundParticles count={50} />
       <div className="container">
-        <h1 className="setup-title">Gamified Icebreaker Setup</h1>
+        <h1 className="setup-title">Welcome to Setup</h1>
         
         <div className="setup-grid">
           {/* Add Tasks Section */}
@@ -215,6 +216,7 @@ const SetupPage: React.FC<SetupPageProps> = ({
           </button>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
