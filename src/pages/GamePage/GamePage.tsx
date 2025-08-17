@@ -1,6 +1,7 @@
 import React from 'react';
 import { Task, Group } from '../../App';
 import './GamePage.css';
+import BackgroundParticles from '../../components/BackgroundParticles/BackgroundParticles';
 
 interface GamePageProps {
   tasks: Task[];
@@ -27,6 +28,7 @@ const GamePage: React.FC<GamePageProps> = ({
 
   return (
     <div className="game-page">
+      <BackgroundParticles count = {30} />
       <div className="container">
         <div className="game-header">
           <h1 className="game-title">Icebreaker Dashboard</h1>
