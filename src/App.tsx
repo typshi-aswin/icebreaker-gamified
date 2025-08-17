@@ -1,8 +1,8 @@
-import { useState } from 'react';
 import SetupPage from './pages/SetupPage/SetupPage';
 import GamePage from './pages/GamePage/GamePage';
 import LeaderboardPage from './pages/LeaderboardPage/LeaderboardPage';
 import BackgroundParticles from './components/BackgroundParticles/BackgroundParticles';
+import usePersistentState from './hooks/PersistantState';
 import './App.css';
 
 export interface Task {
@@ -27,10 +27,11 @@ export interface Group {
 type Page = 'setup' | 'game' | 'leaderboard';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<Page>('setup');
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [players, setPlayers] = useState<Player[]>([]);
-  const [groups, setGroups] = useState<Group[]>([]);
+  const [currentPage, setCurrentPage] = usePersistentState<Page>("page", "setup");
+  const [tasks, setTasks] = usePersistentState<Task[]>("tasks", []);
+  const [players, setPlayers] = usePersistentState<Player[]>("players", []);
+  const [groups, setGroups] = usePersistentState<Group[]>("groups", []);
+
 
   const updateGroupScore = (groupId: string, taskId: string, completed: boolean) => {
     setGroups(prevGroups =>
@@ -72,14 +73,14 @@ function App() {
   };
 
   const addExtraScore = (groupId: string, extrascore: number) => {
-    setGroups(prevGroups => 
+    setGroups(prevGroups =>
       prevGroups.map(group => {
-      if(group.id === groupId){
-        group.score = group.score + extrascore;
-      }
-      return group;
-    })
-  );
+        if (group.id === groupId) {
+          group.score = group.score + extrascore;
+        }
+        return group;
+      })
+    );
   }
 
   return (
