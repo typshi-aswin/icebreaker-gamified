@@ -1,35 +1,111 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import SetupPage from './pages/SetupPage/SetupPage';
+import GamePage from './pages/GamePage/GamePage';
+import LeaderboardPage from './pages/LeaderboardPage/LeaderboardPage';
+import BackgroundParticles from './components/BackgroundParticles/BackgroundParticles';
+import './App.css';
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+export interface Task {
+  id: string;
+  name: string;
+  points: number;
 }
 
-export default App
+export interface Player {
+  id: string;
+  name: string;
+}
+
+export interface Group {
+  id: string;
+  name: string;
+  players: Player[];
+  completedTasks: string[];
+  score: number;
+}
+
+type Page = 'setup' | 'game' | 'leaderboard';
+
+function App() {
+  const [currentPage, setCurrentPage] = useState<Page>('setup');
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [players, setPlayers] = useState<Player[]>([]);
+  const [groups, setGroups] = useState<Group[]>([]);
+
+  const updateGroupScore = (groupId: string, taskId: string, completed: boolean) => {
+    setGroups(prevGroups =>
+      prevGroups.map(group => {
+        if (group.id === groupId) {
+          const task = tasks.find(t => t.id === taskId);
+          if (!task) return group;
+
+          let newCompletedTasks;
+          let newScore;
+
+          if (completed) {
+            newCompletedTasks = [...group.completedTasks, taskId];
+            newScore = group.score + task.points;
+          } else {
+            newCompletedTasks = group.completedTasks.filter(id => id !== taskId);
+            newScore = group.score - task.points;
+          }
+
+          return {
+            ...group,
+            completedTasks: newCompletedTasks,
+            score: newScore
+          };
+        }
+        return group;
+      })
+    );
+  };
+
+  const resetGame = () => {
+    setGroups(prevGroups =>
+      prevGroups.map(group => ({
+        ...group,
+        completedTasks: [],
+        score: 0
+      }))
+    );
+  };
+
+  return (
+    <div className="app">
+      <BackgroundParticles count={40} />
+      {currentPage === 'setup' && (
+        <SetupPage
+          tasks={tasks}
+          setTasks={setTasks}
+          players={players}
+          setPlayers={setPlayers}
+          groups={groups}
+          setGroups={setGroups}
+          onStartGame={() => setCurrentPage('game')}
+        />
+      )}
+
+      {currentPage === 'game' && (
+        <GamePage
+          tasks={tasks}
+          groups={groups}
+          updateGroupScore={updateGroupScore}
+          onViewLeaderboard={() => setCurrentPage('leaderboard')}
+          onBackToSetup={() => setCurrentPage('setup')}
+          onResetGame={resetGame}
+        />
+      )}
+
+      {currentPage === 'leaderboard' && (
+        <LeaderboardPage
+          groups={groups}
+          onBackToGame={() => setCurrentPage('game')}
+          onBackToSetup={() => setCurrentPage('setup')}
+        />
+      )}
+    </div>
+  );
+}
+
+export default App;
